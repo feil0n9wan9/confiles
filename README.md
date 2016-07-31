@@ -1,5 +1,5 @@
 # [Feilong Wang](http://feilongwang.org)'s [Configuration files](https://github.com/feil0n9wan9/confiles)
-This project is a collection of Feilong Wang's Configuration files for bash, vim, git, etc.
+These are configuration files for bash, vim, git, etc to set up a system the way i like it.
 
 
 ## List
