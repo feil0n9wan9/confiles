@@ -2,6 +2,7 @@
 
 The file contains vim configuration, vim plugin management and vim plugin configuration, etc.
 
+I am running on Ubuntu, but it will likely work on Mac OS X as well.
 
 ## Usage 
 
