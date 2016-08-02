@@ -5,11 +5,10 @@ The file contains vim configuration, vim plugin management and vim plugin config
 
 ## Usage 
 
-* Set up `~/.vimrc`. To try this configuration file, you can clone the repository and link your `~/.vimrc` to corresponding vimrc in the repository. Assume currently in user home directory on Ubuntu:
+* Set up `~/.vimrc`. To try this configuration file, you can clone the repository and link your `~/.vimrc` to corresponding vimrc in the repository. Assume currently on Ubuntu:
 ```bash
-mkdir github
-git clone https://github.com/feil0n9wan9/confiles.git github/confiles
-ln -s github/confiles/vim/linux/vimrc .vimrc
+git clone https://github.com/feil0n9wan9/confiles.git
+ln -s confiles/vim/linux/vimrc ~/.vimrc
 ```
 * Set up [Vundle](https://github.com/VundleVim/Vundle.vim):
 ```bash
