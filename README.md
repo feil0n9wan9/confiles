@@ -1,5 +1,20 @@
-# [Feilong Wang](http://feilongwang.org)'s [Configuration files](https://github.com/feil0n9wan9/confiles)
-These are configuration files for bash, vim, git, etc to set up a system as conveniently as possible.
+
+	    ,---,.  ,----..      ,---,.  .--.--.
+	  ,'  .' | /   /   \   ,'  .' | /  /    '.
+	,---.'   ||   :     :,---.'   ||  :  /`. /
+	|   |   .'.   |  ;. /|   |   .';  |  |--`
+	:   :  :  .   ; /--` :   :  :  |  :  ;_
+	:   |  |-,;   | ;    :   |  |-, \  \    `.
+	|   :  ;/||   : |    |   :  ;/|  `----.   \
+	|   |   .'.   | '___ |   |   .'  __ \  \  |
+	'   :  '  '   ; : .'|'   :  '   /  /`--'  /
+	|   |  |  '   | '/  :|   |  |  '--'.     /
+	|   :  \  |   :    / |   :  \    `--'---'
+	|   | ,'   \   \ .'  |   | ,'
+	`----'      `---`    `----'
+
+# [Feilong Wang](http://feilongwang.org)'s [Configuration Files](https://github.com/feil0n9wan9/confiles)
+These are configuration files for bash, vim, git, etc to set up a system easily.
 
 
 ## Installation
@@ -15,6 +30,8 @@ sh -c "`curl -fsSL https://raw.githubusercontent.com/feil0n9wan9/confiles/master
 
 ## List
 * [vim](https://github.com/feil0n9wan9/confiles/tree/master/vim)
+* [gitconfig](https://github.com/feil0n9wan9/confiles/tree/master/gitconfig)
+* [gitignore](https://github.com/feil0n9wan9/confiles/tree/master/gitignore)
 
 
 ## License

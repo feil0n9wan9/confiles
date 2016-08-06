@@ -1,5 +1,3 @@
-#!/bin/sh
-
 # Copyright (c) 2016 Feilong Wang
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,35 +19,15 @@
 # SOFTWARE.
 
 
-# The bootstrap script for set up a system fast and easily.
+# Implemented as a POSIX-compliant function
+# Should work on sh, dash, bash, ksh, zsh
+# To use source this file from your bash profile
 
-git clone https://github.com/feil0n9wan9/confiles.git ~/.confiles
-
-export HOST_OS=
-UNAME=$(uname)
-if [ "$UNAME" = "Linux" ]; then
-    HOST_OS=linux
-fi
-if [ "$UNAME" = "Darwin" ]; then
-    HOST_OS=darwin
-fi
-
-if [ -z $HOST_OS ]; then
-    echo "Unable determine your system information from uname: $UNAME"
-    exit -1
-fi
-
-# Link dot files
-DOTFILES="\
-gitconfig \
-gitignore \
-"
-
-for f in $DOTFILES; do
-    ls -s ~/confiles/$f ~/.$f
-done
+# HOST_OS is exported in $ROOT/bootstrap.sh
 
 # Set up vim
-source ~/.confiles/vim/install.sh
+ln -s ~/.confiles/vim/$HOST_OS/vimrc ~/.vimrc
+git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+vim +PluginInstall +qall
 
-echo "Set up system successfully!"
+echo "Set up vim successfully!"
