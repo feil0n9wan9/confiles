@@ -42,7 +42,6 @@ fi
 # Link dot files
 DOTFILES="\
 gitconfig \
-gitignore \
 "
 
 for f in $DOTFILES; do

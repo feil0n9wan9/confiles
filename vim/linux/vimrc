@@ -49,17 +49,17 @@ Plugin 'VundleVim/Vundle.vim'
 " different version somewhere else.
 "Plugin 'ascenator/L9', {'name': 'newL9'}
 
-Plugin 'a.vim'
+Plugin 'derekwyatt/vim-fswitch'
 Plugin 'taglist.vim'
-Plugin 'cscope.vim'
-Plugin 'Valloric/YouCompleteMe'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 Plugin 'fholgado/minibufexpl.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/nerdcommenter'
-"Plugin 'scrooloose/syntastic'
-Plugin 'jiangmiao/auto-pairs'
+Plugin 'octol/vim-cpp-enhanced-highlight'
+Plugin 'easymotion/vim-easymotion'
+Plugin 'Valloric/YouCompleteMe'
+"Plugin 'nathanaelkane/vim-indent-guides'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -76,27 +76,20 @@ filetype plugin indent on    " required
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
 
+" Define leader key
+let mapleader=";"
 
-" Taglist plugin
+" Plugin Taglist
 let Tlist_Auto_Open=1               "auto open tag list window
 let Tlist_Show_One_File=1           "only show tag of current file
 let Tlist_Exit_OnlyWindow=1         "auto exit Vim if tag list window is the only window
 let Tlist_Use_Right_Window=1        "display in right
 let Tlist_File_Fold_Auto_Close=1    "auto folding
 
-" Cscope plugin
-nmap <C-\>s :cs find s <C-R>=expand("<cword>")<CR><CR>
-nmap <C-\>g :cs find g <C-R>=expand("<cword>")<CR><CR>
-nmap <C-\>c :cs find c <C-R>=expand("<cword>")<CR><CR>
-nmap <C-\>t :cs find t <C-R>=expand("<cword>")<CR><CR>
-nmap <C-\>e :cs find e <C-R>=expand("<cword>")<CR><CR>
-nmap <C-\>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
-nmap <C-\>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
-nmap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>
-" Redirect cscope output to Quickfix
-set cscopequickfix=s-,c-,d-,i-,t-,e-
+" Plugin Vim-fswitch
+nmap <silent> <Leader>sw :FSHere<CR>
 
-" YouCompleteMe plugin
+" Plugin YouCompleteMe
 "let g:ycm_error_symbol='>>'
 "let g:ycm_warning_symbol='>*'
 " Define keys to avoid conflict with UltiSnips
@@ -114,49 +107,70 @@ let g:ycm_key_invoke_completion='<M-/>'
 let g:ycm_complete_in_comments=1
 nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
-" UltiSnips plugin
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsListSnippets="<s-tab>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<c-tab>"
+" Plugin UltiSnips
+" Disable UltiSnips keys as we use YouCompleteMe
+" let g:UltiSnipsExpandTrigger="<tab>"
+" let g:UltiSnipsJumpForwardTrigger="<c-f>"
+" let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 
-" NERDTree plugin
+" Plugin NERDTree
 " Audo open NERDTree when open Vim
 autocmd vimenter * NERDTree
 " Auto close Vim if NERDTree window is the only window
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") &&b:NERDTreeType == "primary") | q | endif
 
-" Syntastic plugin
-"let g:syntastic_check_on_open=1
-let g:syntastic_cpp_include_dirs=['/usr/include/']
-let g:syntastic_cpp_remove_include_errors =1
-let g:syntastic_cpp_check_header=1
-"let g:syntastic_cpp_compiler='clang++'
-let g:syntastic_cpp_compiler_options='-std=c++11 -stdlib=libstdc++'
-" Set error or warning signs
-let g:syntastic_error_symbol='✗'
-let g:syntastic_warning_symbol='⚠'
-" Whether to show balloons
-"let g:syntastic_enable_balloons=1"
+" Plugin Vim-cpp-enhanced-highlight
+" Enable highlighting of class scope
+let g:cpp_class_scope_highlight=1
+" Workaround a vim issue with flagging braces as errors
+let c_no_curly_error=1
 
-" Auto-pairs plugin
-let g:AutoPairsFlyMode = 1          "enable fly mode
+" Plugin Vim-indent-guides
+" Auto enable when open vim
+"let g:indent_guides_enable_on_vim_startup=1
+" Guide indent since level 2
+"let g:indent_guides_start_level=2
+" The width for guide symbol
+"let g:indent_guides_guide_size=1
 
 " Others
+" Copy the selected content to system clipboard
+vnoremap <Leader>y "+y
+" Paste the content in system clipboard to cursor
+nmap <Leader>p "+p
+" Jump to left window
+nnoremap <Leader>wh <c-w>h
+" Jump to up window
+nnoremap <Leader>wk <c-w>k
+" Jump to right window
+nnoremap <Leader>wl <c-w>l
+" Jump to down window
+nnoremap <Leader>wj <c-w>j
+
 " Auto move cursor to edit area
 wincmd w
 autocmd VimEnter * wincmd w
+
+" Auto reload vimrc when it changed
+"autocmd BufWritePost $MYVIMRC source $MYVIMRC
+
+" Enable man in vim
+source $VIMRUNTIME/ftplugin/man.vim
+nmap <Leader>man :Man 3 <cword><CR>
+
 syntax on
 set number                          "display line number
 set autoindent                      "auto indentation
 set smartindent                     "smart align
 set completeopt=preview,menu        "auto complete
 set clipboard+=unnamed              "share clipboard with system
-set tabstop=4                       "tab offset
-set expandtab                       "expand tab as 4 spaces
-set shiftwidth=4                    "4 spaces for auto indentation
+set expandtab                       "expand tab as spaces
+set tabstop=4                       "number of spaces a tab represents
+set shiftwidth=4                    "shift tab as 4 spaces when formatting
 set softtabstop=4                   "delete tabstop as one word in edit mode, even if it's expanded spaces
 set incsearch                       "search right now
+set ignorecase                      "search case insensitive
+set wildmenu                        "auto completion in command line mode
+set ruler                           "display cursor position
 set cursorline
 "hi CursorLine cterm=NONE ctermbg=darkred ctermfg=white guibg=darkred guifg=white
-
