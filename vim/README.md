@@ -1,13 +1,15 @@
 # Vim Configuration File
 
-The file contains vim configuration, vim plugin management and vim plugin configuration.
+The file contains vim configuration, vim plugin management and vim plugin configuration, and you can setup this alone without the need to clone this entire repository.
 
 
-## Usage 
+## Installation
 
-* Set up `~/.vimrc`. To try this configuration file, you can download the corresponding `vimrc` directly to avoid clone this repository. Assume currently on Ubuntu:
+NOTE: As we have [Valloric/YouCompleteMe](https://github.com/Valloric/YouCompleteMe) plugin now, you may need to do a little more operations to let it work after all plgins installed. Please reference to [this](https://github.com/Valloric/YouCompleteMe#c-family-semantic-completion) for detail, and don't worry, it is quite simple.
+
+* Set up `~/.vimrc`. To try this configuration file, you can download the `.vimrc` directly to avoid clone this repository.
 ```bash
-curl -o ~/.vimrc https://raw.githubusercontent.com/feil0n9wan9/confiles/master/vim/linux/vimrc
+curl -o ~/.vimrc https://raw.githubusercontent.com/feil0n9wan9/confiles/master/vim/.vimrc
 ```
 
 * Set up [Vundle](https://github.com/VundleVim/Vundle.vim):

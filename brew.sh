@@ -1,5 +1,3 @@
-#!/bin/sh
-
 # Copyright (c) 2016 Feilong Wang
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -20,35 +18,20 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+echo "=> Update Homebrew..."
+comamnd brew update
 
-# The bootstrap script for set up a system fast and easily.
+echo "=> Upgrade installed Homebrew formula..."
+command brew upgrade --all
 
-git clone https://github.com/feil0n9wan9/confiles.git ~/.confiles
+BREW_INSTALL_LIST="bash bash-completion cmake coreutils cscope ctags curl \
+dos2unix emacs enca gawk gdb gdbm git gmp gnupg go gradle groovy lua macvim \
+maven mpfr node openssl p7zip sqlite valgrind wget xz"
 
-export HOST_OS=
-UNAME=$(uname)
-if [ "$UNAME" = "Linux" ]; then
-    HOST_OS=linux
-fi
-if [ "$UNAME" = "Darwin" ]; then
-    HOST_OS=darwin
-fi
-
-if [ -z $HOST_OS ]; then
-    echo "Unable determine your system information from uname: $UNAME"
-    exit -1
-fi
-
-# Link dot files
-DOTFILES="\
-gitconfig \
-"
-
-for f in $DOTFILES; do
-    ls -s ~/confiles/$f ~/.$f
+echo "=> Install Homebrew formula..."
+for FORMULA in $BREW_INSTALL_LIST
+do
+    command brew install $FORMULA
 done
 
-# Set up vim
-source ~/.confiles/vim/install.sh
-
-echo "Set up system successfully!"
+echo "=> Finish setup Homebrew!"

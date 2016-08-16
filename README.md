@@ -1,37 +1,27 @@
-
-	    ,---,.  ,----..      ,---,.  .--.--.
-	  ,'  .' | /   /   \   ,'  .' | /  /    '.
-	,---.'   ||   :     :,---.'   ||  :  /`. /
-	|   |   .'.   |  ;. /|   |   .';  |  |--`
-	:   :  :  .   ; /--` :   :  :  |  :  ;_
-	:   |  |-,;   | ;    :   |  |-, \  \    `.
-	|   :  ;/||   : |    |   :  ;/|  `----.   \
-	|   |   .'.   | '___ |   |   .'  __ \  \  |
-	'   :  '  '   ; : .'|'   :  '   /  /`--'  /
-	|   |  |  '   | '/  :|   |  |  '--'.     /
-	|   :  \  |   :    / |   :  \    `--'---'
-	|   | ,'   \   \ .'  |   | ,'
-	`----'      `---`    `----'
-
 # [Feilong Wang](http://feilongwang.org)'s [Configuration Files](https://github.com/feil0n9wan9/confiles)
-These are configuration files for bash, vim, git, etc to set up a system easily.
+These are configuration files for bash, vim, git, etc to setup a new system fast and easily.
 
 
 ## Installation
 If you would like to see the old installation, check out [this branch](https://github.com/feil0n9wan9/confiles/tree/standby).
 
-First you'll need to make sure your system has `git` installed.
+You'll need to make sure your system has `git` installed.
 
-To get started please run:
+### Install script
+To install or update fcfs, you can use the install script using `curl`:
 ```bash
-sh -c "`curl -fsSL https://raw.githubusercontent.com/feil0n9wan9/confiles/master/bootstrap.sh`"
+curl -o- https://raw.githubusercontent.com/feil0n9wan9/confiles/master/install.sh | bash
+```
+or `wget`
+```bash
+wget -q0- https://raw.githubusercontent.com/feil0n9wan9/confiles/master/install.sh | bash
 ```
 
+### About `$PATH`
+If `~/.path` exist, it will be sourced along with the other files.
 
-## List
-* [vim](https://github.com/feil0n9wan9/confiles/tree/master/vim)
-* [gitconfig](https://github.com/feil0n9wan9/confiles/tree/master/gitconfig)
-* [gitignore](https://github.com/feil0n9wan9/confiles/tree/master/gitignore)
+### About extra commands
+If `~/.extra` exist, it will be sourced along with the other files. You can use it to add commands you don’t want to commit to a public repository, or to override settings, functions and aliases from the repository.
 
 
 ## License

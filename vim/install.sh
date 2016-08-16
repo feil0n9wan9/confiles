@@ -19,15 +19,23 @@
 # SOFTWARE.
 
 
-# Implemented as a POSIX-compliant function
-# Should work on sh, dash, bash, ksh, zsh
-# To use source this file from your bash profile
+# Setup vim
+echo "=> Linking vimrc"
+command ln -s $FCFS_DIR/vim/.vimrc ~/.vimrc || {
+    echo "Link to '~/.vimrc' failed!"
+    exit 1
+}
 
-# HOST_OS is exported in $ROOT/bootstrap.sh
+echo "=> Downloading vundle..."
+command git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim || {
+    echo "Download 'vundle' failed!"
+    exit 2
+}
 
-# Set up vim
-ln -s ~/.confiles/vim/$HOST_OS/vimrc ~/.vimrc
-git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-vim +PluginInstall +qall
+echo "=> Install plugins..."
+command vim +PluginInstall +qall || {
+    echo "Install plugins failed!"
+    exit 3
+}
 
-echo "Set up vim successfully!"
+echo "Setup vim successfully!"
