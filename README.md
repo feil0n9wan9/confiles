@@ -17,10 +17,10 @@ or `wget`
 wget -q0- https://raw.githubusercontent.com/feil0n9wan9/confiles/master/install.sh | bash
 ```
 
-### About `$PATH`
+### Add `$PATH`
 If `~/.path` exist, it will be sourced along with the other files.
 
-### About extra commands
+### Add extra commands
 If `~/.extra` exist, it will be sourced along with the other files. You can use it to add commands you don’t want to commit to a public repository, or to override settings, functions and aliases from the repository.
 
 

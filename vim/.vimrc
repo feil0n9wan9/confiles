@@ -165,9 +165,9 @@ set smartindent                     "smart align
 set completeopt=preview,menu        "auto complete
 set clipboard+=unnamed              "share clipboard with system
 set expandtab                       "expand tab as spaces
-set tabstop=4                       "number of spaces a tab represents
-set shiftwidth=4                    "shift tab as 4 spaces when formatting
-set softtabstop=4                   "delete tabstop as one word in edit mode, even if it's expanded spaces
+set tabstop=2                       "number of spaces a tab represents
+set shiftwidth=2                    "shift tab as 4 spaces when formatting
+set softtabstop=2                   "delete tabstop as one word in edit mode, even if it's expanded spaces
 set incsearch                       "search right now
 set ignorecase                      "search case insensitive
 set wildmenu                        "auto completion in command line mode

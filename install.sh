@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#
+
 # Copyright (c) 2016 Feilong Wang
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -34,8 +34,27 @@ fcfs_install_dir() {
   echo ${FCFS_DIR:-"$HOME/.fcfs"}
 }
 
+fcfs_latest_version() {
+  echo "v0.1.0"
+}
+
 fcfs_source() {
   echo "https://github.com/feil0n9wan9/confiles.git"
+}
+
+fcfs_get_dotfiles() {
+  echo ".bash_profile .gitconfig .dir_colors"
+}
+
+fcfs_get_os() {
+  local FCFS_UNAME
+  FCFS_UNAME="$(command uname -a)"
+  local FCFS_OS
+  case "$FCFS_UNAME" in
+    Linux\ *) FCFS_OS=linux ;;
+    Darwin\ *) FCFS_OS=darwin ;;
+  esac
+  echo "${FCFS_OS-}"
 }
 
 install_fcfs_from_git() {
@@ -59,39 +78,65 @@ install_fcfs_from_git() {
       exit 1
     }
   fi
-  command git --git-dir="$INSTALL_DIR"/.git --work-tree="$INSTALL_DIR" checkout --quiet master
+  command git --git-dir="$INSTALL_DIR"/.git --work-tree="$INSTALL_DIR" checkout --quiet "$(fcfs_latest_version)"
+  if [ ! -z "$(command git --git-dir="$INSTALL_DIR"/.git --work-tree="$INSTALL_DIR" show-ref refs/heads/master)" ]; then
+    if command git --git-dir="$INSTALL_DIR"/.git --work-tree="$INSTALL_DIR" branch --quiet 2>/dev/null; then
+      command git --git-dir="$INSTALL_DIR"/.git --work-tree="$INSTALL_DIR" branch --quiet -D master >/dev/null 2>&1
+    else
+      echo >&2 "Your version of git is out of date. Please update it!"
+      command git --git-dir="$INSTALL_DIR"/.git --work-tree="$INSTALL_DIR" branch -D master >/dev/null 2>&1
+    fi
+  fi
+  return
 }
 
-install_fcfs_from_git
-
-export HOST_OS=
-UNAME=$(uname)
-if [ "$UNAME" = "Linux" ]; then
-    HOST_OS=linux
-fi
-if [ "$UNAME" = "Darwin" ]; then
-    HOST_OS=darwin
-fi
-
-if [ -z $HOST_OS ]; then
-    echo "Unable determine your system information from uname: $UNAME"
-    command exit 1
-fi
-
-# Link dot files
-for f in ".bash_profile .gitconfig .dir_colors"
-do
-    ln -s $FCFS_DIR/$f ~/$f
-done
-
-# Setup vim at last as it's most at risk.
-source $FCFS_DIR/vim/install.sh || { 
-    echo "Setup vim failed!" 
+fcfs_do_install() {
+  if fcfs_has "git"; then
+    install_fcfs_from_git
+  else
+    echo >&2 "You need git to install fcfs"
     exit 1
+  fi
+
+  local FCFS_OS
+  FCFS_OS=$(fcfs_get_os)
+  if [ -z $FCFS_OS ]; then
+    echo >&2 "Unable determine your OS type from uname: $UNAME"
+    exit 2
+  fi
+
+  # Link dot files
+  local FCFS_OPTIONS
+  if [ ! -d "$INSTALL_DIR/.git" ]; then
+    FCFS_OPTIONS=f
+  fi  
+
+  for f in $(fcfs_get_dotfiles)
+  do
+    echo "=> Create symbol link $HOME/$f to $FCFS_DIR/$f"
+    command ln -s$FCFS_OPTIONS $FCFS_DIR/$f ~/$f > /dev/null 2>&1
+  done
+
+  # Setup vim 
+  source $FCFS_DIR/vim/vim.sh
+
+  # Setup brew if on MacOS X
+  [ $FCFS_OS = darwin ] && source brew.sh
+
+  fcfs_reset
+
+  echo "=> Setup system successfully!"
 }
 
-# Setup brew if on MacOS X
-[ $HOST_OS = darwin ] && source brew.sh
+#
+# Unsets the various functions defined
+# during the execution of the install script
+#
+fcfs_reset() {
+  unset -f fcfs_has fcfs_install_dir fcfs_source install_fcfs_from_git \
+    fcfs_get_dotfiles fcfs_get_os fcfs_do_install
+}
 
-echo "Setup system successfully!"
+[ "_$FCFS_ENV" = "_testing" ] || fcfs_do_install
+
 } # this ensures the entire script is downloaded #

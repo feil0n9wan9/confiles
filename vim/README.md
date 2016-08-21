@@ -5,9 +5,9 @@ The file contains vim configuration, vim plugin management and vim plugin config
 
 ## Installation
 
-NOTE: As we have [Valloric/YouCompleteMe](https://github.com/Valloric/YouCompleteMe) plugin now, you may need to do a little more operations to let it work after all plgins installed. Please reference to [this](https://github.com/Valloric/YouCompleteMe#c-family-semantic-completion) for detail, and don't worry, it is quite simple.
+NOTE: As we have added [Valloric/YouCompleteMe](https://github.com/Valloric/YouCompleteMe) plugin, you may need do a little more operations to let it work after all plgins installed. Please reference to [this](https://github.com/Valloric/YouCompleteMe#c-family-semantic-completion) for detail, and don't worry, it is quite simple.
 
-* Set up `~/.vimrc`. To try this configuration file, you can download the `.vimrc` directly to avoid clone this repository.
+* Set up `~/.vimrc`. To try this configuration file, you can download the `.vimrc` directly to avoid cloning this repository.
 ```bash
 curl -o ~/.vimrc https://raw.githubusercontent.com/feil0n9wan9/confiles/master/vim/.vimrc
 ```
