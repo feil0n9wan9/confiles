@@ -20,24 +20,84 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+#
+# The script should be sourced in $FCFSROOT/install.sh
+# As it using a few of functions defined in install.sh
+#
 
-# Setup vim
-echo "=> Linking vimrc"
-command ln -s $FCFS_DIR/vim/.vimrc ~/.vimrc || {
-    echo "Link to '~/.vimrc' failed!"
-    exit 1
+
+{ # this ensures the entire script is downloaded #
+
+[ fcfs_has "vim" ] || return 0
+[ fcfs_has "git" ] || return 0
+
+vim_vundle_install_dir() {
+  echo "$HOME/.vim/bundle/Vundle.vim"
 }
 
-echo "=> Downloading vundle..."
-command git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim || {
-    echo "Download 'vundle' failed!"
-    exit 2
+vim_install_vundle_from_git() {
+  local VUNDLE_INSTALL_DIR
+  VUNDLE_INSTALL_DIR="$(vim_vundle_install_dir)"
+
+  if [ -d "$VUNDLE_INSTALL_DIR/.git" ]; then
+    echo "=> Vundle is already installed in $VUNDLE_INSTALL_DIR, trying to update using git"
+    printf "\r=> "
+    command git --git-dir="$VUNDLE_INSTALL_DIR/.git" --work-tree="$VUNDLE_INSTALL_DIR" fetch 2> /dev/null || {
+      echo >&2 "Failed to update Vundle, run 'git fetch' in $VUNDLE_INSTALL_DIR yourself."
+      exit 1
+    }
+  else
+    # Cloning to $VUNDLE_INSTALL_DIR
+    echo "=> Downloading Vundle from git to '$VUNDLE_INSTALL_DIR'"
+    printf "\r=> "
+    mkdir -p "$VUNDLE_INSTALL_DIR"
+    command git clone  https://github.com/VundleVim/Vundle.vim.git "$VUNDLE_INSTALL_DIR" || {
+      echo >&2 "Failed to clone Vundle repo. Please report this!"
+      exit 1
+    }
+  fi
+  return
 }
 
-echo "=> Install plugins..."
-command vim +PluginInstall +qall || {
-    echo "Install plugins failed!"
-    exit 3
+vim_link_vimrc() {
+  local INSTALL_DIR
+  INSTALL_DIR=$(fcfs_install_dir)
+
+  local LINK_OPTS
+  if [ -d "$INSTALL_DIR/.git" ]; then
+    echo "=> vimrc symbolic link is already installed, try to update it"
+    printf "\r=>"
+  else
+    LINK_OPTS=f
+    # FIXME Allow user to agree or not
+    echo "=> fcfs will create vimrc symbolic link in your HOME to override the old one"
+    printf "\r=>"
+  fi  
+
+  command ln -s$(LINK_OPTS) "$INSTALL_DIR/vim/.vimrc" $HOME/.vimrc
 }
 
-echo "Setup vim successfully!"
+vim_do_install() {
+
+  vim_link_vimrc
+
+  vim_install_vundle_from_git
+
+  # FIXME Maybe update
+  echo "=> Installing vim plugins..."
+  printf "\r=>"
+  command vim +PluginInstall +qall > /dev/null 2>&1
+
+  vim_reset
+
+  echo "vim has been setup"
+}
+
+vim_reset() {
+  unset -f vim_vundle_install_dir vim_install_vundle_from_git vim_link_vimrc \
+    vim_do_install vim_reset
+}
+
+vim_do_install
+
+} # this ensures the entire script is downloaded #

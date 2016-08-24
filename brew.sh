@@ -20,23 +20,38 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-# Whether Homebrew installed
-command -v brew >/dev/null 2>&1 || return 0
+#
+# The script should be sourced in $FCFSROOT/install.sh
+# As it using a few of functions defined in install.sh
+#
 
-echo "=> Update Homebrew"
+
+{ # this ensures the entire script is downloaded #
+
+# Whether Homebrew installed
+[ fcfs_has "brew" ] || return 0
+
+echo "=> Updating Homebrew..."
+printf "\r=>"
 command brew update
 
-echo "=> Upgrade installed Homebrew formula"
+echo "=> Upgrading installed Homebrew formulas"
+printf "\r=>"
 command brew upgrade --all
 
 BREW_INSTALL_LIST="bash bash-completion cmake coreutils cscope ctags curl \
 dos2unix emacs enca gawk gdb gdbm git gmp gnupg go gradle groovy lua macvim \
 maven mpfr node openssl p7zip sqlite valgrind wget xz"
 
-echo "=> Install Homebrew formula"
+echo "=> Installing new Homebrew formulas"
+printf "\r=>"
 for FORMULA in $BREW_INSTALL_LIST
 do
     command brew install $FORMULA
 done
 
-echo "=> Finish setup Homebrew!"
+unset BREW_INSTALL_LIST
+
+echo "=> Homebrew and formulas have been setup"
+
+} # this ensures the entire script is downloaded #

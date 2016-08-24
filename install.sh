@@ -35,26 +35,50 @@ fcfs_install_dir() {
 }
 
 fcfs_latest_version() {
-  echo "v0.1.0"
+  echo "v0.2.0"
 }
 
 fcfs_source() {
   echo "https://github.com/feil0n9wan9/confiles.git"
 }
 
+fcfs_get_os() {
+  local HOST_UNAME
+  HOST_UNAME="$(command uname -a)"
+  local HOST_OS
+  case "$HOST_UNAME" in
+    Linux\ *) HOST_OS=linux ;;
+    Darwin\ *) HOST_OS=darwin ;;
+  esac
+  echo "${HOST_OS-}"
+}
+
+#
+# Return the dotfiles to apply based on the HOST_OS.
+#
 fcfs_get_dotfiles() {
   echo ".bash_profile .gitconfig .dir_colors"
 }
 
-fcfs_get_os() {
-  local FCFS_UNAME
-  FCFS_UNAME="$(command uname -a)"
-  local FCFS_OS
-  case "$FCFS_UNAME" in
-    Linux\ *) FCFS_OS=linux ;;
-    Darwin\ *) FCFS_OS=darwin ;;
-  esac
-  echo "${FCFS_OS-}"
+fcfs_link_dotfiles() {
+  local INSTALL_DIR
+  INSTALL_DIR=$(fcfs_install_dir)
+
+  local LINK_OPTS
+  if [ -d "$INSTALL_DIR/.git" ]; then
+    echo "=> Symbolic links are already installed, try to update them"
+    printf "\r=>"
+  else
+    LINK_OPTS=f
+    # FIXME Allow user to agree or not
+    echo "=> fcfs will create symbolic links in your HOME to override the olds"
+    printf "\r=>"
+  fi  
+
+  for f in $(fcfs_get_dotfiles)
+  do
+    command ln -s$LINK_OPTS "$INSTALL_DIR/$f" $HOME/$f > /dev/null 2>&1
+  done
 }
 
 install_fcfs_from_git() {
@@ -64,7 +88,7 @@ install_fcfs_from_git() {
   if [ -d "$INSTALL_DIR/.git" ]; then
     echo "=> fcfs is already installed in $INSTALL_DIR, trying to update using git"
     printf "\r=> "
-    command git --git-dir="$INSTALL_DIR"/.git --work-tree="$INSTALL_DIR" fetch 2> /dev/null || {
+    command git --git-dir="$INSTALL_DIR/.git" --work-tree="$INSTALL_DIR" fetch 2> /dev/null || {
       echo >&2 "Failed to update fcfs, run 'git fetch' in $INSTALL_DIR yourself."
       exit 1
     }
@@ -78,13 +102,13 @@ install_fcfs_from_git() {
       exit 1
     }
   fi
-  command git --git-dir="$INSTALL_DIR"/.git --work-tree="$INSTALL_DIR" checkout --quiet "$(fcfs_latest_version)"
+  command git --git-dir="$INSTALL_DIR/.git" --work-tree="$INSTALL_DIR" checkout --quiet "$(fcfs_latest_version)"
   if [ ! -z "$(command git --git-dir="$INSTALL_DIR"/.git --work-tree="$INSTALL_DIR" show-ref refs/heads/master)" ]; then
-    if command git --git-dir="$INSTALL_DIR"/.git --work-tree="$INSTALL_DIR" branch --quiet 2>/dev/null; then
-      command git --git-dir="$INSTALL_DIR"/.git --work-tree="$INSTALL_DIR" branch --quiet -D master >/dev/null 2>&1
+    if command git --git-dir="$INSTALL_DIR/.git" --work-tree="$INSTALL_DIR" branch --quiet 2>/dev/null; then
+      command git --git-dir="$INSTALL_DIR/.git" --work-tree="$INSTALL_DIR" branch --quiet -D master >/dev/null 2>&1
     else
       echo >&2 "Your version of git is out of date. Please update it!"
-      command git --git-dir="$INSTALL_DIR"/.git --work-tree="$INSTALL_DIR" branch -D master >/dev/null 2>&1
+      command git --git-dir="$INSTALL_DIR/.git" --work-tree="$INSTALL_DIR" branch -D master >/dev/null 2>&1
     fi
   fi
   return
@@ -98,34 +122,23 @@ fcfs_do_install() {
     exit 1
   fi
 
-  local FCFS_OS
-  FCFS_OS=$(fcfs_get_os)
-  if [ -z $FCFS_OS ]; then
-    echo >&2 "Unable determine your OS type from uname: $UNAME"
-    exit 2
-  fi
+  local HOST_OS
+  HOST_OS=$(fcfs_get_os)
 
-  # Link dot files
-  local FCFS_OPTIONS
-  if [ ! -d "$INSTALL_DIR/.git" ]; then
-    FCFS_OPTIONS=f
-  fi  
+  local INSTALL_DIR
+  INSTALL_DIR=$(fcfs_install_dir)
 
-  for f in $(fcfs_get_dotfiles)
-  do
-    echo "=> Create symbol link $HOME/$f to $FCFS_DIR/$f"
-    command ln -s$FCFS_OPTIONS $FCFS_DIR/$f ~/$f > /dev/null 2>&1
-  done
+  fcfs_link_dotfiles
 
   # Setup vim 
-  source $FCFS_DIR/vim/vim.sh
+  source "$INSTALL_DIR/vim/vim.sh"
 
   # Setup brew if on MacOS X
-  [ $FCFS_OS = darwin ] && source brew.sh
+  [ $HOST_OS = darwin ] && source "$INSTALL_DIR/brew.sh"
 
   fcfs_reset
 
-  echo "=> Setup system successfully!"
+  echo "=> fcfs is setup, close and reopen your terminal to start using new configurations."
 }
 
 #
@@ -134,7 +147,8 @@ fcfs_do_install() {
 #
 fcfs_reset() {
   unset -f fcfs_has fcfs_install_dir fcfs_source install_fcfs_from_git \
-    fcfs_get_dotfiles fcfs_get_os fcfs_do_install
+    fcfs_get_dotfiles fcfs_link_dotfies fcfs_get_os fcfs_do_install \
+    fcfs_latest_version fcfs_reset
 }
 
 [ "_$FCFS_ENV" = "_testing" ] || fcfs_do_install
