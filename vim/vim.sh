@@ -28,8 +28,8 @@
 
 { # this ensures the entire script is downloaded #
 
-[ fcfs_has "vim" ] || return 0
-[ fcfs_has "git" ] || return 0
+fcfs_has "vim" || return 0
+fcfs_has "git" || return 0
 
 vim_vundle_install_dir() {
   echo "$HOME/.vim/bundle/Vundle.vim"
@@ -63,18 +63,11 @@ vim_link_vimrc() {
   local INSTALL_DIR
   INSTALL_DIR=$(fcfs_install_dir)
 
-  local LINK_OPTS
-  if [ -d "$INSTALL_DIR/.git" ]; then
-    echo "=> vimrc symbolic link is already installed, try to update it"
-    printf "\r=>"
-  else
-    LINK_OPTS=f
-    # FIXME Allow user to agree or not
-    echo "=> fcfs will create vimrc symbolic link in your HOME to override the old one"
-    printf "\r=>"
-  fi  
+  # FIXME Allow user to agree or not
+  echo "=> fcfs will create vim symbolic link in your HOME to override the old one"
+  printf "\r=> "
 
-  command ln -s$(LINK_OPTS) "$INSTALL_DIR/vim/.vimrc" $HOME/.vimrc
+  command ln -sf "$INSTALL_DIR/vim/.vimrc" $HOME/.vimrc 2> /dev/null
 }
 
 vim_do_install() {
@@ -85,7 +78,7 @@ vim_do_install() {
 
   # FIXME Maybe update
   echo "=> Installing vim plugins..."
-  printf "\r=>"
+  printf "\r=> "
   command vim +PluginInstall +qall > /dev/null 2>&1
 
   vim_reset

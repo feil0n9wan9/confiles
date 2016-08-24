@@ -35,7 +35,7 @@ fcfs_install_dir() {
 }
 
 fcfs_latest_version() {
-  echo "v0.2.0"
+  echo "v0.2.1"
 }
 
 fcfs_source() {
@@ -64,20 +64,13 @@ fcfs_link_dotfiles() {
   local INSTALL_DIR
   INSTALL_DIR=$(fcfs_install_dir)
 
-  local LINK_OPTS
-  if [ -d "$INSTALL_DIR/.git" ]; then
-    echo "=> Symbolic links are already installed, try to update them"
-    printf "\r=>"
-  else
-    LINK_OPTS=f
-    # FIXME Allow user to agree or not
-    echo "=> fcfs will create symbolic links in your HOME to override the olds"
-    printf "\r=>"
-  fi  
+  # FIXME Allow user to agree or not
+  echo "=> fcfs will create symbolic links in your HOME to override the olds"
+  printf "\r=> "
 
   for f in $(fcfs_get_dotfiles)
   do
-    command ln -s$LINK_OPTS "$INSTALL_DIR/$f" $HOME/$f > /dev/null 2>&1
+    command ln -sf "$INSTALL_DIR/$f" $HOME/$f 2> /dev/null
   done
 }
 
@@ -138,7 +131,7 @@ fcfs_do_install() {
 
   fcfs_reset
 
-  echo "=> fcfs is setup, close and reopen your terminal to start using new configurations."
+  echo "=> fcfs has been setup, close and reopen your terminal to start using new configurations."
 }
 
 #

@@ -8,7 +8,7 @@ If you would like to see the old installation, check out [this branch](https://g
 You'll need to make sure your system has `git` installed.
 
 ### Install script
-To install or update fcfs, you can use the install script using `curl`:
+To install or update `fcfs`, you can use the install script using `curl`:
 ```bash
 curl -o- https://raw.githubusercontent.com/feil0n9wan9/confiles/master/install.sh | bash
 ```
