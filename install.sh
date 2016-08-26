@@ -35,14 +35,14 @@ fcfs_install_dir() {
 }
 
 fcfs_latest_version() {
-  echo "v0.2.1"
+  echo "v0.2.2"
 }
 
 fcfs_source() {
   echo "https://github.com/feil0n9wan9/confiles.git"
 }
 
-fcfs_get_os() {
+fcfs_host_os() {
   local HOST_UNAME
   HOST_UNAME="$(command uname -a)"
   local HOST_OS
@@ -65,7 +65,7 @@ fcfs_link_dotfiles() {
   INSTALL_DIR=$(fcfs_install_dir)
 
   # FIXME Allow user to agree or not
-  echo "=> fcfs will create symbolic links in your HOME to override the olds"
+  echo "=> Create symbolic links in $HOME to override the olds"
   printf "\r=> "
 
   for f in $(fcfs_get_dotfiles)
@@ -114,14 +114,16 @@ fcfs_do_install() {
     echo >&2 "You need git to install fcfs"
     exit 1
   fi
+  echo
 
   local HOST_OS
-  HOST_OS=$(fcfs_get_os)
+  HOST_OS=$(fcfs_host_os)
 
   local INSTALL_DIR
   INSTALL_DIR=$(fcfs_install_dir)
 
   fcfs_link_dotfiles
+  echo
 
   # Setup vim 
   source "$INSTALL_DIR/vim/vim.sh"
@@ -131,7 +133,7 @@ fcfs_do_install() {
 
   fcfs_reset
 
-  echo "=> fcfs has been setup, close and reopen your terminal to start using new configurations."
+  echo "=> Your system has been updated, close and reopen your terminal to use new configurations."
 }
 
 #
@@ -140,7 +142,7 @@ fcfs_do_install() {
 #
 fcfs_reset() {
   unset -f fcfs_has fcfs_install_dir fcfs_source install_fcfs_from_git \
-    fcfs_get_dotfiles fcfs_link_dotfies fcfs_get_os fcfs_do_install \
+    fcfs_get_dotfiles fcfs_link_dotfies fcfs_host_os fcfs_do_install \
     fcfs_latest_version fcfs_reset
 }
 

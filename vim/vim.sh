@@ -64,9 +64,6 @@ vim_link_vimrc() {
   INSTALL_DIR=$(fcfs_install_dir)
 
   # FIXME Allow user to agree or not
-  echo "=> fcfs will create vim symbolic link in your HOME to override the old one"
-  printf "\r=> "
-
   command ln -sf "$INSTALL_DIR/vim/.vimrc" $HOME/.vimrc 2> /dev/null
 }
 
@@ -77,13 +74,15 @@ vim_do_install() {
   vim_install_vundle_from_git
 
   # FIXME Maybe update
-  echo "=> Installing vim plugins..."
+  echo
+  echo "=> Installing vim plugins via Vundle"
   printf "\r=> "
   command vim +PluginInstall +qall > /dev/null 2>&1
 
   vim_reset
 
-  echo "vim has been setup"
+  echo
+  echo "=> Vim has been updated"
 }
 
 vim_reset() {

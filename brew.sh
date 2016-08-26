@@ -28,16 +28,15 @@
 
 { # this ensures the entire script is downloaded #
 
-# Whether Homebrew installed
 fcfs_has "brew" || return 0
 
-echo "=> Updating Homebrew..."
+echo "=> Updating Homebrew"
 printf "\r=> "
 command brew update
 
 echo "=> Upgrading installed Homebrew formulas"
 printf "\r=> "
-command brew upgrade --all
+command brew upgrade --all > /dev/null 2>&1
 
 BREW_INSTALL_LIST="bash bash-completion cmake coreutils cscope ctags curl \
 dos2unix emacs enca gawk gdb gdbm git gmp gnupg go gradle groovy lua macvim \
@@ -47,11 +46,11 @@ echo "=> Installing new Homebrew formulas"
 printf "\r=> "
 for FORMULA in $BREW_INSTALL_LIST
 do
-    command brew install $FORMULA
+    command brew install $FORMULA > /dev/null 2>&1
 done
 
 unset BREW_INSTALL_LIST
 
-echo "=> Homebrew and formulas have been setup"
+echo "=> Homebrew and formulas have been updated"
 
 } # this ensures the entire script is downloaded #
