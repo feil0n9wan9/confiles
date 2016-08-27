@@ -35,7 +35,7 @@ fcfs_install_dir() {
 }
 
 fcfs_latest_version() {
-  echo "v0.2.3"
+  echo "v0.3.0"
 }
 
 fcfs_source() {
@@ -65,9 +65,8 @@ fcfs_link_dotfiles() {
   INSTALL_DIR=$(fcfs_install_dir)
 
   # FIXME Allow user to agree or not
-  echo "=> Creating symbolic links to $INSTALL_DIR in $HOME to override the olds"
+  echo "=> Creating symbolic links in $HOME to $INSTALL_DIR"
   printf "\r=> "
-
   for f in $(fcfs_get_dotfiles)
   do
     command ln -sf "$INSTALL_DIR/$f" $HOME/$f 2> /dev/null
@@ -135,7 +134,7 @@ fcfs_do_install() {
 
   fcfs_reset
 
-  echo "=> Your system has been updated, close and reopen your terminal to use new configurations."
+  echo "=> Close and reopen your terminal for the new profiles to tack effect."
 }
 
 #

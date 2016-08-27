@@ -1,0 +1,31 @@
+#
+# My extra profile as an example
+#
+
+# hard-coding for speed
+
+# for go
+export GOROOT=/usr/local/opt/go/libexec
+export GOPATH=$HOME/Workspace/go
+export GOBIN=$GOPATH/bin
+PATH=$GOBIN:$PATH
+
+# for groovy
+export GROOVY_HOME=/usr/local/opt/groovy/libexec
+
+# for android
+PATH=$HOME/Library/Android/sdk/tools:$HOME/Library/Android/sdk/platform-tools:$HOME/Library/Android/ndk:$PATH
+
+# for coreutils
+PATH=/usr/local/opt/coreutils/libexec/gnubin:$PATH
+alias ls='ls -F --show-control-chars --color=auto'
+eval `gdircolors -b $HOME/.dir_colors`
+
+# for bash_completion
+. /usr/local/etc/bash_completion
+
+# mount the android file image
+function mountcases() { hdiutil attach $HOME/Documents/cases.dmg.sparseimage -mountpoint $HOME/Development/cases;  }
+
+# unmount the android file image
+function umountcases() { hdiutil detach $HOME/Development/cases;  }
