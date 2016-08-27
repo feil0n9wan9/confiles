@@ -80,9 +80,6 @@ vim_do_install() {
   command vim +PluginInstall +qall > /dev/null 2>&1
 
   vim_reset
-
-  echo
-  echo "=> Vim has been updated"
 }
 
 vim_reset() {

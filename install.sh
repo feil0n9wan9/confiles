@@ -35,7 +35,7 @@ fcfs_install_dir() {
 }
 
 fcfs_latest_version() {
-  echo "v0.2.2"
+  echo "v0.2.3"
 }
 
 fcfs_source() {
@@ -65,7 +65,7 @@ fcfs_link_dotfiles() {
   INSTALL_DIR=$(fcfs_install_dir)
 
   # FIXME Allow user to agree or not
-  echo "=> Create symbolic links in $HOME to override the olds"
+  echo "=> Creating symbolic links to $INSTALL_DIR in $HOME to override the olds"
   printf "\r=> "
 
   for f in $(fcfs_get_dotfiles)
@@ -127,9 +127,11 @@ fcfs_do_install() {
 
   # Setup vim 
   source "$INSTALL_DIR/vim/vim.sh"
+  echo
 
   # Setup brew if on MacOS X
   [ $HOST_OS = darwin ] && source "$INSTALL_DIR/brew.sh"
+  echo
 
   fcfs_reset
 
