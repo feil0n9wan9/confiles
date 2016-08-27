@@ -5,7 +5,7 @@ These are configuration files for bash, vim, git, etc to setup a new system fast
 ## Installation
 If you would like to see the old installation, check out [this branch](https://github.com/feil0n9wan9/confiles/tree/standby).
 
-You'll need to make sure your system has `git` installed.
+You'll need to make sure your system has `git`, `curl` or `wget` installed.
 
 ### Install script
 To install or update fcfs, you can use the install script using `curl`:
@@ -14,7 +14,7 @@ curl -o- https://raw.githubusercontent.com/feil0n9wan9/confiles/master/install.s
 ```
 or `wget`
 ```bash
-wget -q0- https://raw.githubusercontent.com/feil0n9wan9/confiles/master/install.sh | bash
+wget -qO- https://raw.githubusercontent.com/feil0n9wan9/confiles/master/install.sh | bash
 ```
 
 ### Add extra commands
