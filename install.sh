@@ -35,7 +35,7 @@ fcfs_install_dir() {
 }
 
 fcfs_latest_version() {
-  echo "v0.3.1"
+  echo "v0.3.2"
 }
 
 fcfs_source() {
@@ -57,7 +57,7 @@ fcfs_host_os() {
 # Return the dotfiles to apply based on the HOST_OS.
 #
 fcfs_get_dotfiles() {
-  echo ".bash_profile .gitconfig .dir_colors"
+  echo ".bash_profile .gitconfig .dir_colors .ycm_extra_conf.py"
 }
 
 fcfs_link_dotfiles() {
@@ -71,6 +71,7 @@ fcfs_link_dotfiles() {
   do
     command ln -sf "$INSTALL_DIR/$f" $HOME/$f 2> /dev/null
   done
+  unset f
 }
 
 install_fcfs_from_git() {

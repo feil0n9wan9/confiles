@@ -1,8 +1,8 @@
 #
-# My extra profile as an example
+# My .extra file as an example
 #
 
-# hard-coding for speed
+# hard-coded for speed
 
 # for go
 export GOROOT=/usr/local/opt/go/libexec
@@ -13,10 +13,10 @@ PATH=$GOBIN:$PATH
 # for groovy
 export GROOVY_HOME=/usr/local/opt/groovy/libexec
 
-# for android
+# for android sdk
 PATH=$HOME/Library/Android/sdk/tools:$HOME/Library/Android/sdk/platform-tools:$HOME/Library/Android/ndk:$PATH
 
-# for coreutils
+# for gun coreutils
 PATH=/usr/local/opt/coreutils/libexec/gnubin:$PATH
 alias ls='ls -F --show-control-chars --color=auto'
 eval `gdircolors -b $HOME/.dir_colors`
@@ -24,8 +24,8 @@ eval `gdircolors -b $HOME/.dir_colors`
 # for bash_completion
 . /usr/local/etc/bash_completion
 
-# mount the android file image
+# mount case-sensitive image
 function mountcases() { hdiutil attach $HOME/Documents/cases.dmg.sparseimage -mountpoint $HOME/Development/cases;  }
 
-# unmount the android file image
+# unmount case-sensitive image
 function umountcases() { hdiutil detach $HOME/Development/cases;  }
