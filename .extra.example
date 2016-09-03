@@ -14,7 +14,7 @@ PATH=$GOBIN:$PATH
 export GROOVY_HOME=/usr/local/opt/groovy/libexec
 
 # for android sdk
-PATH=$HOME/Library/Android/sdk/tools:$HOME/Library/Android/sdk/platform-tools:$HOME/Library/Android/ndk:$PATH
+PATH=$HOME/Library/Android/sdk/tools:$HOME/Library/Android/sdk/platform-tools:$HOME/Library/Android/sdk/ndk-bundle:$PATH
 
 # for gun coreutils
 PATH=/usr/local/opt/coreutils/libexec/gnubin:$PATH

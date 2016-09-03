@@ -23,3 +23,7 @@ vim +PluginInstall +qall
 ```
 
 * Enjoy it:)
+
+
+## Screenshot
+![](http://oartlnou9.bkt.clouddn.com/images/png/vim-preview.png)
