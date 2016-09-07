@@ -26,4 +26,4 @@ vim +PluginInstall +qall
 
 
 ## Screenshot
-![](http://oartlnou9.bkt.clouddn.com/images/png/vim-preview.png)
+![vim-screenshot](http://oartlnou9.bkt.clouddn.com/images/png/vim-screenshot.png)

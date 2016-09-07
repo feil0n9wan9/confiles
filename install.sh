@@ -35,7 +35,7 @@ fcfs_install_dir() {
 }
 
 fcfs_latest_version() {
-  echo "v0.3.2"
+  echo "v0.3.3"
 }
 
 fcfs_source() {
